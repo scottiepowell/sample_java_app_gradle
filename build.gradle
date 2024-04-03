@@ -1,0 +1,35 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Define your project dependencies here
+    // For example: implementation 'com.google.guava:guava:31.0.1-jre'
+}
+
+// Ensure the deps directory exists
+task createDepsDir {
+    doLast {
+        file('deps').mkdirs()
+    }
+}
+
+// Custom task to unzip dependencies using 7-zip
+task getDeps(type: Exec, dependsOn: createDepsDir) {
+    // Use Windows-style path with proper escaping or quoting
+    // Adjust the path to your actual deps.zip location
+    commandLine 'cmd', '/c', '7z', 'x', 'T:\\5_repos\\deps.zip', '-odeps'
+}
+
+// Ensure build depends on getDeps
+build.dependsOn getDeps
+
+// Task to clean the build directory and the deps directory
+clean {
+    delete rootProject.buildDir
+    delete 'deps'
+}
