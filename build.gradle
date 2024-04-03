@@ -22,7 +22,7 @@ task createDepsDir {
 task getDeps(type: Exec, dependsOn: createDepsDir) {
     // Use Windows-style path with proper escaping or quoting
     // Adjust the path to your actual deps.zip location
-    commandLine 'cmd', '/c', '7z', 'x', 'T:\\5_repos\\deps.zip', '-odeps'
+    commandLine 'cmd', '/c', '7z', 'x', 'C:\Users\Administrator\bamboo-agent-home\xml-data\build-dir\\deps.zip', '-odeps'
 }
 
 // Ensure build depends on getDeps
