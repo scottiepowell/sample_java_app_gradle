@@ -1,0 +1,41 @@
+# Gradle files
+.gradle/
+build/
+
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle/wrapper/gradle-wrapper.jar
+
+# Cache of project
+.caches/
+
+# IDE specific files
+# Eclipse
+.classpath
+.project
+.settings/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+
+# Visual Studio Code
+.vscode/
+
+# Mac OS X specific files
+.DS_Store
+
+# Windows specific files
+Thumbs.db
+
+# JDK specific files
+hs_err_pid*
+
+# Log file
+*.log
+
+# Virtual Machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
