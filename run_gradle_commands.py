@@ -6,6 +6,7 @@ print("Current PATH:", os.environ.get('PATH'))
 def run_gradle_commands(csv_file, base_dir, log_file):
     with open(csv_file, mode='r', newline='') as file:
         reader = csv.reader(file)
+        next(reader)
         for row in reader:
             component, *commands = row
             component_dir = os.path.join(base_dir, component)

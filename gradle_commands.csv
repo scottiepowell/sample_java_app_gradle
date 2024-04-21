@@ -1,3 +1,4 @@
+directory,command1,command2,command3,command4
 component_1,gradle.bat getDeps --no-daemon --no-parallel,gradle build --stacktrace,gradle clean
 component_2,gradle build --info --stacktrace,gradle clean
 component_3/component_3_1,gradle getDeps,gradle build
