@@ -1,0 +1,5 @@
+component_1,gradle.bat getDeps --no-daemon --no-parallel,gradle build --stacktrace,gradle clean
+component_2,gradle build --info --stacktrace,gradle clean
+component_3/component_3_1,gradle getDeps,gradle build
+component_4,gradle build, gradle clean
+component_5,gradle getDeps,gradle.bat build, gradle.bat clean

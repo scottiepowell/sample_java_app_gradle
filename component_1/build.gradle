@@ -18,11 +18,17 @@ task createDepsDir {
     }
 }
 
-// Custom task to unzip dependencies using 7-zip
 task getDeps(type: Exec, dependsOn: createDepsDir) {
-    // Use Windows-style path with proper escaping or quoting
-    // Adjust the path to your actual deps.zip location
-    commandLine 'cmd', '/c', '7z', 'x', 'T:\\5_repos\\deps.zip', '-odeps'
+    doFirst {
+        println "Checking if deps.zip exists at ${projectDir}/deps.zip"
+        if (file("${projectDir}/deps.zip").exists()) {
+            println "File exists"
+        } else {
+            println "File does not exist"
+            throw new StopExecutionException("deps.zip not found at ${projectDir}/deps.zip")
+        }
+    }
+    commandLine 'cmd', '/c', 'unzip', '-o', "${projectDir}\\deps.zip", '-d', "${projectDir}\\deps"
 }
 
 // Ensure build depends on getDeps

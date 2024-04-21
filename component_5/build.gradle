@@ -1,0 +1,74 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Define your project dependencies here
+    // For example: implementation 'com.google.guava:guava:31.0.1-jre'
+}
+
+// Ensure the deps directory exists
+task createDepsDir {
+    doLast {
+        file('deps').mkdirs()
+    }
+}
+
+task getDeps(type: Exec, dependsOn: createDepsDir) {
+    doFirst {
+        println "Checking if deps.zip exists at ${projectDir}/deps.zip"
+        if (file("${projectDir}/deps.zip").exists()) {
+            println "File exists"
+        } else {
+            println "File does not exist"
+            throw new StopExecutionException("deps.zip not found at ${projectDir}/deps.zip")
+        }
+    }
+    commandLine 'cmd', '/c', 'unzip', '-o', "${projectDir}\\deps.zip", '-d', "${projectDir}\\deps"
+}
+
+// Ensure build depends on getDeps
+build.dependsOn getDeps
+
+clean {
+    delete rootProject.buildDir
+    delete 'deps'
+    delete "${projectDir}/newSrc"
+}
+
+// Define the new source directory
+def newSourceDir = "${projectDir}/newSrc"
+
+// Task to create the new source directory
+task createNewSourceDir {
+    doLast {
+        file(newSourceDir).mkdirs()
+    }
+}
+
+// Task to copy the built .class files to the new source directory
+task copyBuildToNewSource(dependsOn: ['build', 'createNewSourceDir']) {
+    doLast {
+        copy {
+            from "${buildDir}/classes"
+            into newSourceDir
+        }
+    }
+}
+
+// A task to compile the simple component from the new source directory
+task compileSimpleComponent(dependsOn: copyBuildToNewSource, type: JavaCompile) {
+    source = fileTree(newSourceDir) {
+        include '**/*.java'
+    }
+    classpath = sourceSets.main.runtimeClasspath
+    destinationDir = file("$buildDir/classes/simpleComponent")
+}
+
+// Ensure the new compilation task is executed after the build
+build.finalizedBy compileSimpleComponent
+
